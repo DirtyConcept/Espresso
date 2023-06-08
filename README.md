@@ -4,6 +4,10 @@
 
 Ghostingly is a powerful library containing a collection of shared classes designed to enhance your project development experience. With Ghostingly, you can streamline your workflow by leveraging reusable components and utilities.
 
+**Disclaimer:**
+This project includes code snippets and concepts that have been adapted from LielsUtils (https://github.com/LielAmar/LielsUtils) and updated to support the latest version of Minecraft. 
+I greatly acknowledge the original work done by LielAmar.
+
 ## Documentation
 
 The detailed documentation for Ghostingly can be found in the [Wiki](link-to-wiki). It provides in-depth information about the library's features, usage examples, and best practices.
