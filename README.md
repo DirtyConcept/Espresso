@@ -1,6 +1,6 @@
 # Ghostingly
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Ghostingly is a powerful library containing a collection of shared classes designed to enhance your project development experience. With Ghostingly, you can streamline your workflow by leveraging reusable components and utilities.
 
