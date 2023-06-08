@@ -1,4 +1,4 @@
-package dev.sadghost.ghostingly.spigot.files;
+package dev.sadghost.celeste.spigot.files;
 
 import org.bukkit.Color;
 import org.bukkit.Location;

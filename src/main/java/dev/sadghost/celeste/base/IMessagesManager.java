@@ -1,4 +1,4 @@
-package dev.sadghost.ghostingly.base;
+package dev.sadghost.celeste.base;
 
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;

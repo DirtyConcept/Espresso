@@ -1,4 +1,4 @@
-package dev.sadghost.ghostingly.groups;
+package dev.sadghost.celeste.groups;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

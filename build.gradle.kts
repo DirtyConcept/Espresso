@@ -18,13 +18,13 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:24.0.1")
 
-    implementation("org.mongodb:mongo-java-driver:3.12.14")
+    compileOnly("org.mongodb:mongo-java-driver:3.12.14")
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
 }
 
 group = "dev.sadghost"
 version = "1.0.0"
-description = "Ghostingly"
+description = "Celeste"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 publishing {

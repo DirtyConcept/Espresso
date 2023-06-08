@@ -1,6 +1,6 @@
-package dev.sadghost.ghostingly.paper;
+package dev.sadghost.celeste.paper;
 
-import dev.sadghost.ghostingly.base.Preconditions;
+import dev.sadghost.celeste.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.entity.Player;

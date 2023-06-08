@@ -1,4 +1,4 @@
-package dev.sadghost.ghostingly.spigot.nbt;
+package dev.sadghost.celeste.spigot.nbt;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;

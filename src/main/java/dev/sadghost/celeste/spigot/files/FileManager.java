@@ -1,4 +1,4 @@
-package dev.sadghost.ghostingly.spigot.files;
+package dev.sadghost.celeste.spigot.files;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -57,7 +57,7 @@ public final class FileManager {
      * @since 1.0.0
      */
     public @Nullable IConfig getConfig(final @NotNull String path,
-                                       @NotNull String fileName) {
+                                       final @NotNull String fileName) {
         IConfig config = this.configs.get(fileName);
         if (config != null) return config;
 
@@ -92,7 +92,7 @@ public final class FileManager {
      *         or {@code null} if the file name is empty
      * @since 1.0.0
      */
-    private @Nullable File getConfigFile(@NotNull String path,
+    private @Nullable File getConfigFile(final @NotNull String path,
                                          final @NotNull String fileName) {
         if (fileName.isEmpty()) return null;
         return new File(path, fileName);

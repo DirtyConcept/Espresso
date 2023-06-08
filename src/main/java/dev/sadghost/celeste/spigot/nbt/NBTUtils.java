@@ -1,6 +1,6 @@
-package dev.sadghost.ghostingly.spigot.nbt;
+package dev.sadghost.celeste.spigot.nbt;
 
-import dev.sadghost.ghostingly.base.Preconditions;
+import dev.sadghost.celeste.base.Preconditions;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
