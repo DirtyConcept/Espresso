@@ -1,4 +1,4 @@
-package dev.sadghost.celeste.base;
+package dev.sadghost.espresso.base;
 
 /**
  * The {@code IReloadable} interface represents an instance that can be reloaded,

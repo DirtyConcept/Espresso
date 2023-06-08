@@ -1,4 +1,4 @@
-package dev.sadghost.celeste.spigot.direction;
+package dev.sadghost.espresso.spigot.direction;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

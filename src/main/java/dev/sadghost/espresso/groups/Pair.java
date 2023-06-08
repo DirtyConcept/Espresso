@@ -1,4 +1,4 @@
-package dev.sadghost.celeste.groups;
+package dev.sadghost.espresso.groups;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

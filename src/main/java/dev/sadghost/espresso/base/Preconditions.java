@@ -1,4 +1,4 @@
-package dev.sadghost.celeste.base;
+package dev.sadghost.espresso.base;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

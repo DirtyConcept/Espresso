@@ -1,4 +1,4 @@
-package dev.sadghost.celeste.time;
+package dev.sadghost.espresso.time;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

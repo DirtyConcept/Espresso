@@ -1,4 +1,4 @@
-import dev.sadghost.celeste.base.Preconditions;
+import dev.sadghost.espresso.base.Preconditions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;

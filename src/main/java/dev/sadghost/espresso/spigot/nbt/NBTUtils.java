@@ -1,6 +1,6 @@
-package dev.sadghost.celeste.spigot.nbt;
+package dev.sadghost.espresso.spigot.nbt;
 
-import dev.sadghost.celeste.base.Preconditions;
+import dev.sadghost.espresso.base.Preconditions;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

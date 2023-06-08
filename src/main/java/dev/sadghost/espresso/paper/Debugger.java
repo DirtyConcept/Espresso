@@ -1,6 +1,6 @@
-package dev.sadghost.celeste.paper;
+package dev.sadghost.espresso.paper;
 
-import dev.sadghost.celeste.base.Preconditions;
+import dev.sadghost.espresso.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import org.bukkit.entity.Player;

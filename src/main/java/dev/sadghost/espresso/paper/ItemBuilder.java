@@ -1,8 +1,8 @@
-package dev.sadghost.celeste.paper;
+package dev.sadghost.espresso.paper;
 
 import com.destroystokyo.paper.Namespaced;
 import com.google.common.collect.Multimap;
-import dev.sadghost.celeste.base.Preconditions;
+import dev.sadghost.espresso.base.Preconditions;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;

@@ -1,4 +1,4 @@
-package dev.sadghost.celeste.paper;
+package dev.sadghost.espresso.paper;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;

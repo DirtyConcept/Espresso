@@ -1,4 +1,4 @@
-package dev.sadghost.celeste.database;
+package dev.sadghost.espresso.database;
 
 /**
  * The {@code IDocumentSerializable} interface defines the contract for objects that can be serialized to and

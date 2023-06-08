@@ -1,4 +1,4 @@
-package dev.sadghost.celeste.exceptions;
+package dev.sadghost.espresso.exceptions;
 
 /**
  * The {@code NotImplementedException} is thrown to indicate that a particular feature or functionality
