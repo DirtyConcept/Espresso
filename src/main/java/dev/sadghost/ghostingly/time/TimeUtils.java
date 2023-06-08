@@ -7,12 +7,25 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * A utility class used for formatting time & much more.
+ * The {@code TimeUtils} class is a utility class for formatting and manipulating time.
+ * It provides methods for retrieving the current date, parsing time strings, formatting time durations,
+ * and formatting seconds into a specific time format.
+ * <p>
+ * The class uses milliseconds as the standard unit of time for calculations and conversions.
+ *
+ * <h3>Usage Example:</h3>
+ * <pre>{@code
+ * String currentDate = TimeUtils.getCurrentDate("yyyy-MM-dd");
+ * long timeDuration = TimeUtils.parseTime("1y2m");
+ * String formattedTime = TimeUtils.formatTime(timeDuration);
+ * String formattedSeconds = TimeUtils.formatSeconds(300);
+ * }</pre>
  *
  * @author SadGhost
  * @since 1.0.0
  */
 public class TimeUtils {
+    // Constants for milliseconds conversion
     private static final long MILLISECONDS_IN_SECOND = 1000;
     private static final long MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * 60;
     private static final long MILLISECONDS_IN_HOUR = MILLISECONDS_IN_MINUTE * 60;
@@ -22,34 +35,33 @@ public class TimeUtils {
     private static final long MILLISECONDS_IN_YEAR = MILLISECONDS_IN_DAY * 365;
 
     /**
-     * Seals the class.
+     * Private constructor to prevent instantiation of this utility class.
      */
     @Contract(pure = true)
-    private TimeUtils() {}
+    private TimeUtils() {
+    }
 
     /**
-     * Returns the current date
+     * Returns the current date formatted according to the given pattern.
      *
-     * @param pattern Pattern to use
-     * @return Current date (String Format)
+     * @param pattern the pattern to use for formatting the date
+     * @return the current date as a string formatted according to the pattern
      * @since 1.0.0
      */
-    public static @NotNull String getDate(final @NotNull String pattern) {
+    public static @NotNull String getCurrentDate(final @NotNull String pattern) {
         final DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
         return dtf.format(LocalDateTime.now());
     }
 
     /**
-     * Parses time given in string into milliseconds as long
-     * Example: 1y2m -> 100000
+     * Parses the given time string and returns the corresponding duration in milliseconds.
      *
-     * @param time Time to parse
-     * @return Parsed time as long
+     * @param time the time string to parse
+     * @return the parsed time duration in milliseconds
      * @since 1.0.0
      */
     public static long parseTime(final @NotNull String time) {
         long milliseconds = 0;
-
         final char[] timeArray = time.toCharArray();
 
         for (int i = 0; i < timeArray.length; i++) {
@@ -68,13 +80,12 @@ public class TimeUtils {
     }
 
     /**
-     * Util function to parse a specific time in string
-     * Example: 1y -> 90000
+     * Utility function to parse a specific time unit from the time string.
      *
-     * @param timeArray Array of characters to parse
-     * @param index Current index in the array
-     * @param millisecondsModifier Modifier to milliseconds - by how much does this function need to multiply the result to turn it to milliseconds
-     * @return Parsed specific time as long
+     * @param timeArray the array of characters representing the time string
+     * @param index the current index in the array
+     * @param millisecondsModifier the multiplier to convert the result to milliseconds
+     * @return the parsed specific time unit in milliseconds
      * @since 1.0.0
      */
     private static long parseSpecificTime(final char @NotNull[] timeArray,
@@ -85,7 +96,7 @@ public class TimeUtils {
         int counter = 1;
 
         while (j >= 0 && Character.isDigit(timeArray[j])) {
-            milliseconds += counter * Integer.parseInt(timeArray[j] + "") * millisecondsModifier;
+            milliseconds += counter * Integer.parseInt(String.valueOf(timeArray[j])) * millisecondsModifier;
             counter = counter * 10;
             j--;
         }
@@ -94,14 +105,13 @@ public class TimeUtils {
     }
 
     /**
-     * Parses time given in milliseconds into text as string
-     * Example: 100000 -> 1 year, 2 months etc.
+     * Formats the given time duration in milliseconds into a human-readable string representation.
      *
-     * @param time Time to parse
-     * @return Parsed time as string
+     * @param time the time duration in milliseconds
+     * @return a human-readable string representation of the time duration
      * @since 1.0.0
      */
-    public static @NotNull String parseTime(long time) {
+    public static @NotNull String formatTime(long time) {
         if (time < 0) return "Forever";
 
         final long years = time / MILLISECONDS_IN_YEAR;
@@ -124,23 +134,28 @@ public class TimeUtils {
 
         final long seconds = time / MILLISECONDS_IN_SECOND;
 
-        final StringBuilder finalTime = new StringBuilder();
-        if (years > 0) finalTime.append(years).append(" years, ");
-        if (months > 0) finalTime.append(months).append(" months, ");
-        if (weeks > 0) finalTime.append(weeks).append(" weeks, ");
-        if (days > 0) finalTime.append(days).append(" days, ");
-        if (hours > 0) finalTime.append(hours).append(" hours, ");
-        if (minutes > 0) finalTime.append(minutes).append(" minutes, ");
-        if (seconds > 0) finalTime.append(seconds).append(" seconds");
+        final StringBuilder formattedTime = new StringBuilder();
+        if (years > 0) formattedTime.append(years).append(" year").append(years > 1 ? "s" : "").append(", ");
+        if (months > 0) formattedTime.append(months).append(" month").append(months > 1 ? "s" : "").append(", ");
+        if (weeks > 0) formattedTime.append(weeks).append(" week").append(weeks > 1 ? "s" : "").append(", ");
+        if (days > 0) formattedTime.append(days).append(" day").append(days > 1 ? "s" : "").append(", ");
+        if (hours > 0) formattedTime.append(hours).append(" hour").append(hours > 1 ? "s" : "").append(", ");
+        if (minutes > 0) formattedTime.append(minutes).append(" minute").append(minutes > 1 ? "s" : "").append(", ");
+        if (seconds > 0) formattedTime.append(seconds).append(" second").append(seconds > 1 ? "s" : "");
 
-        return finalTime.substring(0, finalTime.length() - 2);
+        final int length = formattedTime.length();
+        if (length >= 2 && formattedTime.charAt(length - 2) == ',') {
+            formattedTime.replace(length - 2, length, "");
+        }
+
+        return formattedTime.toString();
     }
 
     /**
-     * Formats X seconds to the following format: XX:XX
+     * Formats the given number of seconds into the "XX:XX" format.
      *
-     * @param seconds Seconds to format
-     * @return Time left in the XX:XX format
+     * @param seconds the number of seconds to format
+     * @return the formatted time in the "XX:XX" format
      * @since 1.0.0
      */
     @Contract(pure = true)

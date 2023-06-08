@@ -2,8 +2,8 @@ package dev.sadghost.ghostingly.paper;
 
 import com.destroystokyo.paper.Namespaced;
 import com.google.common.collect.Multimap;
-import net.kyori.adventure.text.Component;
 import dev.sadghost.ghostingly.base.Preconditions;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -17,12 +17,38 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 /**
- * An items builder class.
+ * A builder class for creating ItemStack objects with custom properties.
+ *
+ * <p>
+ * This class provides a convenient way to create ItemStack objects with various properties such as material, amount, and item meta.
+ * It follows the builder pattern and allows chaining of method calls to configure the item.
+ * </p>
+ *
+ * <p>
+ * Example usage:
+ * </p>
+ *
+ * <pre>{@code
+ * ItemStack item = ItemBuilder.of(Material.DIAMOND_SWORD)
+ *                           .withAmount(1)
+ *                           .withDisplayName("Sharp Sword")
+ *                           .withLore("Powerful weapon")
+ *                           .build();
+ * }</pre>
+ *
+ * <p>
+ * This class is immutable, meaning that once an ItemBuilder object is created, its properties cannot be changed.
+ * To modify the properties, a new ItemBuilder object should be created.
+ * </p>
+ *
+ * <p>
+ * Thread Safety: This class is not thread-safe. It should not be accessed concurrently from multiple threads.
+ * </p>
  *
  * @author SadGhost
  * @since 1.0.0
@@ -32,21 +58,19 @@ public final class ItemBuilder {
     @NotNull private final ItemMeta meta;
 
     /**
-     * Creates an item builder with a default amount of 1
-     * from the material provided.
+     * Creates an ItemBuilder object with a default amount of 1 from the provided material.
      *
-     * @param material the item material.
+     * @param material the material of the item.
      */
     public ItemBuilder(final @NotNull Material material) {
         this(material, 1);
     }
 
     /**
-     * Creates an item builder with the provided amount
-     * and the provided material.
+     * Creates an ItemBuilder object with the provided amount and material.
      *
-     * @param material the item material.
-     * @param amount the amount of the item.
+     * @param material the material of the item.
+     * @param amount   the amount of the item.
      */
     public ItemBuilder(final @NotNull Material material,
                        final int amount) {
@@ -54,10 +78,9 @@ public final class ItemBuilder {
     }
 
     /**
-     * Creates an item builder with the provided
-     * item.
+     * Creates an ItemBuilder object with the provided ItemStack.
      *
-     * @param itemStack the item.
+     * @param itemStack the ItemStack to use.
      */
     public ItemBuilder(final @NotNull ItemStack itemStack) {
         this.itemStack = itemStack;
@@ -65,11 +88,10 @@ public final class ItemBuilder {
     }
 
     /**
-     * Returns an {@code ItemBuilder} instance with the
-     * provided material.
+     * Returns a new ItemBuilder instance with the provided material.
      *
-     * @param material the material.
-     * @return the {@code ItemBuilder} instance.
+     * @param material the material of the item.
+     * @return a new ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> new")
@@ -78,12 +100,11 @@ public final class ItemBuilder {
     }
 
     /**
-     * Returns an {@code ItemBuilder} instance with the
-     * provided material and amount.
+     * Returns a new ItemBuilder instance with the provided material and amount.
      *
-     * @param material the material.
-     * @param amount the amount.
-     * @return the {@code ItemBuilder} instance.
+     * @param material the material of the item.
+     * @param amount   the amount of the item.
+     * @return a new ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_, _ -> new")
@@ -92,11 +113,10 @@ public final class ItemBuilder {
     }
 
     /**
-     * Returns an {@code ItemBuilder} instance with the
-     * provided item.
+     * Returns a new ItemBuilder instance with the provided ItemStack.
      *
-     * @param itemStack the item.
-     * @return the {@code ItemBuilder} instance.
+     * @param itemStack the ItemStack to use.
+     * @return a new ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> new")
@@ -105,28 +125,28 @@ public final class ItemBuilder {
     }
 
     /**
-     * Sets the item's display name in the meta.
+     * Sets the display name of the item.
      *
-     * @param displayName the new display name.
-     * @return the {@code ItemBuilder} instance.
+     * @param displayName the display name of the item.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setName(final @NotNull Component displayName) {
+    public @NotNull ItemBuilder withName(final @NotNull Component displayName) {
         meta.displayName(displayName);
         return this;
     }
 
 
     /**
-     * Sets the item's damage in the meta.
+     * Sets the damage on the item.
      *
-     * @param damage the new durability.
-     * @return the {@code ItemBuilder} instance.
+     * @param damage the damage on the item.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setDamage(final int damage) {
+    public @NotNull ItemBuilder withDamage(final int damage) {
         if (!(meta instanceof Damageable damageable))
             throw new IllegalStateException("Cannot set the damage of a non-damageable item.");
 
@@ -136,48 +156,40 @@ public final class ItemBuilder {
 
 
     /**
-     * Sets the item's lore in the meta.
+     * Sets the lore of the item.
      *
-     * @param lore the new lore.
-     * @return the {@code ItemBuilder} instance.
+     * @param lore the lore of the item.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setLore(final @NotNull Component @NotNull... lore) {
-        final List<Component> loreComponents = new ArrayList<>();
-        for (int i = 0; i < lore.length; i++)
-            loreComponents.set(i, lore[i]);
-
-        meta.lore(loreComponents);
+    public @NotNull ItemBuilder withLore(final @NotNull Component @NotNull... lore) {
+        meta.lore(Arrays.asList(lore));
         return this;
     }
 
     /**
-     * Sets the item's lore in the meta.
+     * Sets the lore of the item.
      *
-     * @param lore the new lore.
-     * @return the {@code ItemBuilder} instance.
+     * @param lore the lore of the item.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setLore(final @NotNull List<Component> lore) {
-        final List<Component> loreComponents = new ArrayList<>();
-        for (int i = 0; i < lore.size(); i++)
-            loreComponents.set(i, lore.get(i));
-
-        meta.lore(loreComponents);
+    public @NotNull ItemBuilder withLore(final @NotNull List<Component> lore) {
+        meta.lore(lore);
         return this;
     }
 
     /**
-     * Removes a lore line from the item's meta.
+     * Removed the lore line from the item.
      *
-     * @param line the lore line.
-     * @return the {@code ItemBuilder} instance.
+     * @param line the lore line on the item.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder removeLoreLine(final @NotNull Component line) {
+    public @NotNull ItemBuilder withoutLoreLine(final @NotNull Component line) {
         final List<Component> lore = meta.lore();
         if (lore == null) return this;
         if (!lore.contains(line)) return this;
@@ -188,14 +200,14 @@ public final class ItemBuilder {
     }
 
     /**
-     * Removes a lore line from the item's meta.
+     * Removes the lore line from the item using an index.
      *
-     * @param index the lore line index.
-     * @return the {@code ItemBuilder} instance.
+     * @param index the lore line's index on the item
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder removeLoreLine(final int index) {
+    public @NotNull ItemBuilder withoutLoreLine(final int index) {
         final List<Component> lore = meta.lore();
         if (lore == null) return this;
         if (index < 0 || index > lore.size()) return this;
@@ -206,10 +218,10 @@ public final class ItemBuilder {
     }
 
     /**
-     * Adds a lore line to the current lore
+     * Adds the lore line to the item.
      *
      * @param line the new lore line.
-     * @return the {@code ItemBuilder} instance.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
@@ -224,16 +236,16 @@ public final class ItemBuilder {
     }
 
     /**
-     * Sets a lore line in the item's meta.
+     * Adds the lore line to a specific position on the lore of the item
      *
      * @param line the new lore line.
-     * @param pos the line index.
-     * @return the {@code ItemBuilder} instance.
+     * @param pos the position on the lore.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_, _ -> this")
-    public @NotNull ItemBuilder setLoreLine(final @NotNull Component line,
-                                            final int pos) {
+    public @NotNull ItemBuilder withLoreLine(final @NotNull Component line,
+                                             final int pos) {
         final List<Component> lore = meta.lore();
         if (lore != null) {
             lore.set(pos, line);
@@ -243,24 +255,24 @@ public final class ItemBuilder {
     }
 
     /**
-     * Sets the item's new model data in the item's meta.
+     * Sets the custom model data of the item.
      *
-     * @param i the new custom model data.
-     * @return the {@code ItemBuilder} instance.
+     * @param i the custom model data of the item.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setCustomModelData(final int i) {
+    public @NotNull ItemBuilder withCustomModelData(final int i) {
         meta.setCustomModelData(i);
         return this;
     }
 
     /**
-     * Adds an enchantment to the item's metadata.
+     * Adds an enchantment to the item.
      *
-     * @param enchant the enchantment.
+     * @param enchant the new enchantment.
      * @param level the enchantment level.
-     * @return the {@code ItemBuilder} instance.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_, _ -> this")
@@ -271,23 +283,23 @@ public final class ItemBuilder {
     }
 
     /**
-     * Removes an enchantment from the item in the item's meta.
+     * Removes an enchantment from the item.
      *
-     * @param enchant the enchantment.
-     * @return the {@code ItemBuilder} instance.
+     * @param enchant the enchantment on the item.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder removeEnchant(final @NotNull Enchantment enchant) {
+    public @NotNull ItemBuilder withoutEnchant(final @NotNull Enchantment enchant) {
         meta.removeEnchant(enchant);
         return this;
     }
 
     /**
-     * Adds item flags to the item's meta.
+     * Adds item flags to the item.
      *
-     * @param itemFlags the item flags.
-     * @return the {@code ItemBuilder} instance.
+     * @param itemFlags the new item flags.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
@@ -297,37 +309,37 @@ public final class ItemBuilder {
     }
 
     /**
-     * Removes item flags from the item's meta.
+     * Removes item flags from the item.
      *
-     * @param itemFlags the item flags.
-     * @return the {@code ItemBuilder} instance.
+     * @param itemFlags the item flags on the item.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder removeItemFlags(@NotNull ItemFlag @NotNull... itemFlags) {
+    public @NotNull ItemBuilder withoutItemFlags(@NotNull ItemFlag @NotNull... itemFlags) {
         meta.removeItemFlags(itemFlags);
         return this;
     }
 
     /**
-     * Sets the unbreakable value of the item in the item's meta.
+     * Sets the breaking state of the item.
      *
-     * @param unbreakable the value.
-     * @return the {@code ItemBuilder} instance.
+     * @param unbreakable the new breaking state.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setUnbreakable(final boolean unbreakable) {
+    public @NotNull ItemBuilder asUnbreakable(final boolean unbreakable) {
         meta.setUnbreakable(unbreakable);
         return this;
     }
 
     /**
-     * Adds an attribute modifier to the item in the item's meta.
+     * Adds an attribute modifier to the item.
      *
-     * @param attribute the attribute.
-     * @param attributeModifier the modifier.
-     * @return the {@code ItemBuilder} instance.
+     * @param attribute the attribute of the modifier.
+     * @param attributeModifier the attribute modifier.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_, _ -> this")
@@ -338,92 +350,89 @@ public final class ItemBuilder {
     }
 
     /**
-     * Sets the item's attribute modifiers in the item's meta.
+     * Sets the attribute modifiers of the item.
      *
-     * @param attributeModifiers the attribute modifiers.
-     * @return the {@code ItemBuilder} instance.
+     * @param attributeModifiers the attribute modifiers map.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setAttributeModifiers(final @Nullable Multimap<Attribute, AttributeModifier> attributeModifiers) {
+    public @NotNull ItemBuilder withAttributeModifiers(final @Nullable Multimap<Attribute, AttributeModifier> attributeModifiers) {
         meta.setAttributeModifiers(attributeModifiers);
         return this;
     }
 
     /**
-     * The attribute modifier to remove from the item's meta.
+     * Removes the attribute modifier from the item.
      *
-     * @param attribute the attribute.
-     * @return the {@code ItemBuilder} instance.
+     * @param attribute the attribute of the modifier.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder removeAttributeModifier(final @NotNull Attribute attribute) {
+    public @NotNull ItemBuilder withoutAttributeModifier(final @NotNull Attribute attribute) {
         meta.removeAttributeModifier(attribute);
         return this;
     }
 
     /**
-     * The equipment slot to remove modifiers from in
-     * the item's meta.
+     * The equipment slot to remove attribute modifiers from on the item.
      *
-     * @param equipmentSlot the equipment slot.
-     * @return the {@code ItemBuilder} instance.
+     * @param equipmentSlot the equipment slot to remove modifiers from.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder removeAttributeModifier(final @NotNull EquipmentSlot equipmentSlot) {
+    public @NotNull ItemBuilder withoutAttributeModifier(final @NotNull EquipmentSlot equipmentSlot) {
         meta.removeAttributeModifier(equipmentSlot);
         return this;
     }
 
     /**
-     * The specific attribute modifier to remove from
-     * the item's meta.
+     * Removes a specific attribute modifier from the item.
      *
-     * @param attribute the attribute.
-     * @param attributeModifier the attribute modifier.
-     * @return the {@code ItemBuilder} instance.
+     * @param attribute the attribute of the modifier.
+     * @param attributeModifier the attribute modifier to remove.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_, _ -> this")
-    public @NotNull ItemBuilder removeAttributeModifier(final @NotNull Attribute attribute,
-                                                        final @NotNull AttributeModifier attributeModifier) {
+    public @NotNull ItemBuilder withoutAttributeModifier(final @NotNull Attribute attribute,
+                                                         final @NotNull AttributeModifier attributeModifier) {
         meta.removeAttributeModifier(attribute, attributeModifier);
         return this;
     }
 
     /**
-     * Sets the destroyable blocks keys in the item's meta.
+     * Sets the destroyable block keys on the item.
      *
-     * @param keys the destroyable keys.
-     * @return the {@code ItemBuilder} instance.
+     * @param keys the destroyable block keys.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setDestroyableKeys(final @NotNull Collection<Namespaced> keys) {
+    public @NotNull ItemBuilder withDestroyableKeys(final @NotNull Collection<Namespaced> keys) {
         meta.setDestroyableKeys(keys);
         return this;
     }
 
     /**
-     * Sets the placeable blocks keys in the item's meta.
+     * Sets the placeable block keys on the item.
      *
-     * @param keys the destroyable keys.
-     * @return the {@code ItemBuilder} instance.
+     * @param keys the placeable block keys.
+     * @return the ItemBuilder instance.
      * @since 1.0.0
      */
     @Contract("_ -> this")
-    public @NotNull ItemBuilder setPlaceableKeys(final @NotNull Collection<Namespaced> keys) {
+    public @NotNull ItemBuilder withPlaceableKeys(final @NotNull Collection<Namespaced> keys) {
         meta.setPlaceableKeys(keys);
         return this;
     }
 
     /**
-     * Builds the item and returns it as an item stack.
+     * Builds and returns the final ItemStack.
      *
-     * @return the item built as {@code ItemStack}.
-     * @since 1.0.0
+     * @return the final ItemStack.
      */
     public @NotNull ItemStack build() {
         itemStack.setItemMeta(meta);

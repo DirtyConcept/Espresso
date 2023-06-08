@@ -4,43 +4,35 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.DyeColor;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A coloring utility class for servers running paper, velocity
- * or any software that support the Kyori adventure library.
- * <a href="https://docs.adventure.kyori.net">Kyori Adventure</a>
+ * A utility class for handling color formatting and translation using the Kyori Adventure library.
+ * Supports servers running Paper, Velocity, or any software that supports Kyori Adventure.
  *
- * @author SadGhost
+ * @author SadGhost, LielAmar
  * @since 1.0.0
  */
 public final class ColorUtils {
 
     /**
-     * Seals the class.
+     * The most common color translation character.
+     *
+     * @since 1.0.0
      */
-    @Contract(pure = true)
+    public static final char COLOR_CHAR = '&';
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
     private ColorUtils() {}
 
     /**
-     * The most common color translation character.
-     * @since 1.0.0
-     */
-    public final static char COLOR_CHAR = '&';
-
-    /**
-     * Colors a message that uses Bungee's color format
-     * and returns the formatted message deserialized into
-     * {@code Component}.
-     * <p>
-     * Note: This function uses the most common color character {@code &}
-     * for the deserialization.
+     * Colors a message that uses Bungee's color format and returns the formatted message deserialized into a {@code Component}.
      *
      * @param text The Bungee format message
-     * @return The formatted message as {@code Component}
-     * @see #color(char, String)
+     * @return The formatted message as a {@code Component}
      * @since 1.0.0
      */
     public static @NotNull Component color(final @Nullable String text) {
@@ -48,32 +40,25 @@ public final class ColorUtils {
     }
 
     /**
-     * Colors a message that uses Bukkit's color format
-     * and returns the formatted message deserialized into
-     * {@code Component}.
+     * Colors a message that uses Bukkit's color format and returns the formatted message deserialized into a {@code Component}.
      *
      * @param colorChar The color character to use in the deserialization
-     * @param text The Bungee format message
-     * @return The formatted message as {@code Component}
+     * @param text      The Bukkit format message
+     * @return The formatted message as a {@code Component}
      * @since 1.0.0
      */
-    public static @NotNull Component color(final char colorChar,
-                                               final @Nullable String text) {
-        if (text == null)
-            return Component.text("");
+    public static @NotNull Component color(final char colorChar, final @Nullable String text) {
+        if (text == null) return Component.empty();
         return LegacyComponentSerializer.legacy(colorChar).deserialize(text);
     }
 
     /**
-     * Colors a Bukkit message with support to hex color codes.
-     * <p>
-     * Note: This function uses the most common color character {@code &}
-     * for the translation.
+     * Colors a Bukkit message with support for hex color codes.
      *
-     * @deprecated in favor of {@link #color(String)}
      * @param text Message to color
      * @return Colored message
-     * @see #colorLegacy(char, String)
+     * @deprecated in favor of {@link #color(String)}
+     * @see #color(char, String)
      * @since 1.0.0
      */
     @Deprecated(since = "1.0.0")
@@ -82,51 +67,46 @@ public final class ColorUtils {
     }
 
     /**
-     * Colors a Bukkit message with support to hex color codes.
+     * Colors a Bukkit message with support for hex color codes.
      *
-     * @deprecated in favor of {@link #color(char, String)}
      * @param colorChar The color character
-     * @param text Message to color
+     * @param text      Message to color
      * @return Colored message
+     * @deprecated in favor of {@link #color(char, String)}
      * @since 1.0.0
      */
     @Deprecated(since = "1.0.0")
-    public static @NotNull String colorLegacy(final char colorChar,
-                                              final @Nullable String text) {
+    public static @NotNull String colorLegacy(final char colorChar, final @Nullable String text) {
         return text == null ? "" : ChatColor.translateAlternateColorCodes(colorChar, text);
     }
 
     /**
-     * Removes all colors from the given string and replaces
-     * them with {@literal &}.
+     * Removes all colors from the given string and replaces them with the color character.
      *
-     * @deprecated in favor of {@link LegacyComponentSerializer#deserialize(String)}
      * @param text Text to replace
      * @return Uncolored message
+     * @deprecated in favor of {@link LegacyComponentSerializer#deserialize(String)}
      * @see #uncolorLegacy(char, String)
      * @since 1.0.0
      */
     @Deprecated(since = "1.0.0")
-    @Contract("_ -> new")
     public static @NotNull String uncolorLegacy(final @Nullable String text) {
         return uncolorLegacy(COLOR_CHAR, text);
     }
 
     /**
-     * Removes all colors from the given string and replaces
-     * them with {@code colorChar}.
+     * Removes all colors from the given string and replaces them with the color character.
      *
-     * @deprecated in favor of {@link LegacyComponentSerializer#deserialize(String)} )}
-     * @param colorChar Color code character
-     * @param text Text to replace
+     * @param colorChar The color code character
+     * @param text      Text to replace
      * @return Uncolored message
+     * @deprecated in favor of {@link LegacyComponentSerializer#deserialize(String)}
      * @since 1.0.0
      */
     @Deprecated(since = "1.0.0")
-    @Contract("_, _ -> new")
-    public static @NotNull String uncolorLegacy(final char colorChar,
-                                                final @Nullable String text) {
+    public static @NotNull String uncolorLegacy(final char colorChar, final @Nullable String text) {
         if (text == null) return "";
+
         final char[] array = text.toCharArray();
         for (int i = 0; i < array.length - 1; i++) {
             if (array[i] == colorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRrXx".indexOf(array[i + 1]) != -1) {
@@ -141,11 +121,10 @@ public final class ColorUtils {
      * Translates a DyeColor object to an integer.
      *
      * @param color The {@link DyeColor} object
-     * @throws IllegalArgumentException if {@code color} is null
      * @return Integer equivalent of the color
+     * @throws IllegalArgumentException if {@code color} is null
      * @since 1.0.0
      */
-    @Contract(pure = true)
     public static int translateColorToInt(final @NotNull DyeColor color) {
         return switch (color) {
             case WHITE -> 0;
@@ -174,7 +153,6 @@ public final class ColorUtils {
      * @return {@link DyeColor} equivalent of the color
      * @since 1.0.0
      */
-    @Contract(pure = true)
     public static @Nullable DyeColor translateIntToColor(final int color) {
         return switch (color) {
             case 0 -> DyeColor.WHITE;

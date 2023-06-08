@@ -1,4 +1,4 @@
-package dev.sadghost.ghostingly.paper.files;
+package dev.sadghost.ghostingly.spigot.files;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -16,14 +16,21 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Interface for all the file types received from the
- * file manager.
+ * Interface for managing configuration files of different types.
+ * <p>
+ * Implementations of this interface represent different file types received
+ * from the file manager. They provide methods to retrieve and manipulate
+ * configuration values based on their data types.
  *
- * @author SadGhost
+ * @apiNote This interface is experimental and subject to change in future versions.
  * @since 1.0.0
+ * @author SadGhost
  */
 @Experimental
 public sealed interface IConfig permits YAMLConfig {
+
+    // Methods for retrieving configuration values
+
     @Nullable Object get(@NotNull String path);
     @NotNull Object get(@NotNull String path, @NotNull Object defaultValue);
 
@@ -98,13 +105,21 @@ public sealed interface IConfig permits YAMLConfig {
     boolean isConfigurationSection(@NotNull String path);
     boolean isSet(@NotNull String path);
 
+    // Configuration file management methods
+
     /**
-     * Reloads the config from the saved file on the disk
+     * Reloads the configuration from the saved file on disk.
+     * <p>
+     * This method discards any changes made to the configuration and
+     * reloads the values from the original file.
      */
     void reloadConfig();
 
     /**
-     * Saves the config
+     * Saves the configuration to the underlying file.
+     * <p>
+     * This method saves the current configuration values to the original file
+     * on disk, overwriting any existing data in the file.
      */
     void saveConfig();
 }

@@ -1,13 +1,25 @@
-package dev.sadghost.ghostingly.paper;
+package dev.sadghost.ghostingly.spigot.direction;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * A directions calculation utility class.
+ * A utility class for calculating directions.
+ *
+ * <p>
+ * This class provides methods for calculating angles and directions between locations and players.
+ * It is used to determine the direction in which a player is relevant to a location or to calculate the yaw angle between two locations.
+ * </p>
+ *
+ * <p>
+ * This class is optimized for performance and efficiency.
+ * </p>
+ *
+ * <p>
+ * Thread Safety: This class is thread-safe and can be used concurrently from multiple threads.
+ * </p>
  *
  * @author SadGhost
  * @since 1.0.0
@@ -15,17 +27,17 @@ import org.jetbrains.annotations.NotNull;
 public final class DirectionUtils {
 
     /**
-     * Seals the class.
+     * Private constructor to prevent instantiation of this utility class.
      */
-    @Contract(pure = true)
-    private DirectionUtils() {}
+    private DirectionUtils() {
+    }
 
     /**
-     * Calculates a yaw from 2 locations
+     * Calculates the yaw angle between two locations.
      *
-     * @param point1 The first location
-     * @param point2 The second location
-     * @return Yaw angle
+     * @param point1 the first location.
+     * @param point2 the second location.
+     * @return the yaw angle in degrees.
      * @since 1.0.0
      */
     public static float getAngle(final @NotNull Vector point1,
@@ -39,11 +51,11 @@ public final class DirectionUtils {
     }
 
     /**
-     * Returns the direction in which a player is relevant to a location
+     * Returns the direction in which a player is relevant to a location.
      *
-     * @param player Player to check
-     * @param to Destination
-     * @return Direction
+     * @param player the player.
+     * @param to     the destination location.
+     * @return the direction.
      * @since 1.0.0
      */
     public static @NotNull Direction getDirectionFromLocations(final @NotNull Player player,

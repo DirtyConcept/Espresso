@@ -1,4 +1,4 @@
-package dev.sadghost.ghostingly.paper.files;
+package dev.sadghost.ghostingly.spigot.files;
 
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -304,16 +304,20 @@ public final class YAMLConfig implements IConfig {
         return this.configuration.isSet(path);
     }
 
+    // Configuration file management methods
+
     /**
-     * Loads the config:
-     * - Sets the configuration object's value
+     * Loads the configuration file into the plugin's configuration object.
+     * <p>
+     * This method reads the config file and sets the value of the configuration object.
+     * If the config file does not exist, this method does nothing.
+     * <p>
+     * Note: Comments in the config file will be ignored during the loading process.
      *
      * @since 1.0.0
      */
     private void loadConfig() {
-        if (!this.configFile.exists()) {
-            return;
-        }
+        if (!this.configFile.exists()) return;
 
         try {
             String currentLine;
@@ -321,22 +325,23 @@ public final class YAMLConfig implements IConfig {
             final List<String> lines = Files.readAllLines(this.configFile.toPath(), StandardCharsets.UTF_8);
             final StringBuilder configData = new StringBuilder();
 
-            // Looping over the lines to parse the config
             for (final String line : lines) {
-                currentLine = line;
+                currentLine = line.trim();
 
-                // TODO: comments loading.
-                if (!currentLine.startsWith("#") || !currentLine.trim().startsWith("#")) {
-                    // If the current line is not a comment we want to add it to the config data
-                    configData.append(currentLine).append("\n");
+                if (!currentLine.startsWith("#")) {
+                    // Append the line to the config data
+                    configData.append(line).append("\n");
                 }
+
             }
 
-            // Loading the configData into this.configuration through a reader
+            // Load the configData into this.configuration through a reader
             final Reader inputString = new StringReader(configData.toString());
             final BufferedReader reader = new BufferedReader(inputString);
 
             this.configuration = YamlConfiguration.loadConfiguration(reader);
+
+            // Close the reader
             inputString.close();
             reader.close();
         } catch (final IOException e) {
@@ -344,12 +349,13 @@ public final class YAMLConfig implements IConfig {
         }
     }
 
+
     /**
      * Returns a key from a path.
      * <p>
      * If the path has any parents, we want to only get the children.
      * We also want to add 2 spaces before the key, for every parent it has.
-     * This way, the key matches with the one from the initial load of the config (through #loadConfig)
+     * This way, the key matches with the one from the initial load of the config (through {@link #loadConfig()}).
      * <p>
      * Example:
      *   hello.i.am.liel
@@ -357,8 +363,8 @@ public final class YAMLConfig implements IConfig {
      *   - key is "liel"
      *   - final key would have 6 spaces (3 parents * 2 spaces for each parent) -> "      liel"
      *
-     * @param path Path to get the key of
-     * @return Key of the path
+     * @param path the path to get the key of
+     * @return the key of the path
      * @since 1.0.0
      */
     private @NotNull String getKeyFromPath(final @NotNull String path) {
@@ -379,39 +385,51 @@ public final class YAMLConfig implements IConfig {
         return key.toString();
     }
 
+    /**
+     * Reloads the configuration from the file.
+     * <p>
+     * This method reloads the configuration by calling {@link #loadConfig()}.
+     *
+     * @since 1.0.0
+     */
     @Override
     public void reloadConfig() {
         this.loadConfig();
     }
 
+    /**
+     * Saves the configuration to the file.
+     * <p>
+     * This method saves the configuration by converting it to a string, applying comments,
+     * and then writing it to the config file.
+     *
+     * @since 1.0.0
+     */
     @Override
     public void saveConfig() {
         this.saveConfig(this.getConfigAsString());
     }
 
     /**
-     * Saves the config:
-     *   - Gets the config string from the YamlConfiguration object
-     *   - Applies comments to the config string
-     *   - saves it to the config file
+     * Saves the provided configuration string to the config file.
      *
-     * @param configString string to save to the config
+     * @param configString the string to save to the config
+     * @since 1.0.0
      */
     private void saveConfig(final @NotNull String configString) {
-        try {
-            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.configFile), StandardCharsets.UTF_8));
+        try (final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.configFile), StandardCharsets.UTF_8))) {
             writer.write(configString);
             writer.flush();
-            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Returns the config as string
+     * Returns the configuration as a string.
      *
-     * @return String value of the config, including comments
+     * @return the string value of the config, including comments
+     * @since 1.0.0
      */
     private @NotNull String getConfigAsString() {
         return this.configuration.saveToString();

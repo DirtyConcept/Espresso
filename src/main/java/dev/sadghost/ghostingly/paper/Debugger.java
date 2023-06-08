@@ -16,34 +16,72 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A debugger class which allows to create a consistent
- * plugin debugger instance with channels & everything.
+ * A debugger class that facilitates the creation of a consistent plugin debugger instance with channels and message formatting.
  *
- * @author SadGhost
+ * <p>
+ * This class allows developers to create a debugger instance for their plugin, manage debug channels, and send debug messages to registered players.
+ * It provides flexibility in defining the debug message format and supports multiple debug channels for organizing debugging information.
+ * </p>
+ *
+ * <p>
+ * This class is designed to be used internally within the application and is not intended for direct public use.
+ * </p>
+ *
+ * <p>
+ * Thread Safety: This class is not thread-safe as the underlying map of channels is not synchronized.
+ * If multiple threads access the same Debugger instance concurrently and modify the channels map,
+ * external synchronization must be applied to ensure thread safety.
+ * </p>
+ *
+ * <p>
+ * Example usage:
+ * <pre>{@code
+ * Plugin plugin = // get your plugin instance
+ * Debugger debugger = Debugger.create(plugin);
+ * debugger.register("channel1", "Channel 1");
+ * debugger.subscribe("channel1", player1);
+ * debugger.sendDebug("channel1", "Debug message");
+ * }</pre>
+ * </p>
+ *
  * @since 1.0.0
+ * @author SadGhost
  */
 @ApiStatus.Experimental
 public final class Debugger {
-    @NotNull private final Map<String, DebugChannel> channels;
+    @NotNull
+    private final Map<String, DebugChannel> channels;
+
     /**
      * The default debug message format.
+     *
      * @since 1.0.0
      */
-    @NotNull private static Component debugMessage = Component.text("[DEBUG:%plugin%] [%channel%] %message%");
+    @NotNull
+    private static Component debugMessage = Component.text("[DEBUG:%plugin%] [%channel%] %message%");
 
+    /**
+     * Constructs a Debugger instance using the specified plugin and the default debug message format.
+     *
+     * @param plugin the plugin using the debugger.
+     */
     private Debugger(final @NotNull Plugin plugin) {
         this(plugin, debugMessage);
     }
 
-    private Debugger(final @NotNull Plugin plugin,
-                     final @NotNull Component debugFormat) {
+    /**
+     * Constructs a Debugger instance using the specified plugin and debug message format.
+     *
+     * @param plugin      the plugin using the debugger.
+     * @param debugFormat the debug message format.
+     */
+    private Debugger(final @NotNull Plugin plugin, final @NotNull Component debugFormat) {
         channels = new HashMap<>();
         init(plugin, debugFormat);
     }
 
     /**
-     * Creates a debugger instance using the provided
-     * plugin.
+     * Creates a new Debugger instance using the provided plugin.
      *
      * @param plugin the plugin using the debugger.
      * @return the debugger instance.
@@ -55,32 +93,27 @@ public final class Debugger {
     }
 
     /**
-     * Creates a debugger instance using the provided
-     * plugin and debug message format.
+     * Creates a new Debugger instance using the provided plugin and debug message format.
      *
-     * @param plugin the plugin using the debugger.
+     * @param plugin      the plugin using the debugger.
      * @param debugFormat the debug message format.
      * @return the debugger instance.
      * @since 1.0.0
      */
     @Contract("_, _ -> new")
-    public static @NotNull Debugger create(final @NotNull Plugin plugin,
-                                           final @NotNull Component debugFormat) {
+    public static @NotNull Debugger create(final @NotNull Plugin plugin, final @NotNull Component debugFormat) {
         return new Debugger(plugin, debugFormat);
     }
 
     /**
-     * Sends a debug message to all the registered players
-     * to that debugging channel.
+     * Sends a debug message to all the registered players listening to the specified debugging channel.
      *
-     * @param key The debug channel identifier.
-     * @param message The debug message.
-     * @return If the sending was success.
-     * @throws NullPointerException if the channel is not registered.
+     * @param key     the identifier of the debug channel.
+     * @param message the debug message.
+     * @return {@code true} if the sending was successful, {@code false} if the channel is not registered.
      * @since 1.0.0
      */
-    public boolean sendDebug(final @NotNull String key,
-                             final @NotNull String message) {
+    public boolean sendDebug(final @NotNull String key, final @NotNull String message) {
         final DebugChannel channel = getChannel(key);
         if (channel == null) return false;
 
@@ -106,12 +139,10 @@ public final class Debugger {
     }
 
     /**
-     * Returns the channel from the registry using the
-     * identifier key provided in the parameters.
+     * Returns the debug channel associated with the specified key.
      *
-     * @param key the identification key.
-     * @return the debug channel.
-     * @throws NullPointerException if the channel doesn't exist.
+     * @param key the identifier of the debug channel.
+     * @return the debug channel, or {@code null} if the channel is not registered.
      * @since 1.0.0
      */
     public @Nullable DebugChannel getChannel(final @NotNull String key) {
@@ -119,55 +150,51 @@ public final class Debugger {
     }
 
     /**
-     * Subscribes a target as a listener to a channel.
+     * Subscribes a player as a listener to the specified debug channel.
      *
-     * @param key The channel identifier.
-     * @param player The target.
-     * @return If the target was subscribed.
+     * @param key    the identifier of the debug channel.
+     * @param player the player to subscribe.
+     * @return {@code true} if the player was subscribed successfully, {@code false} if the channel is not registered.
      * @since 1.0.0
      */
-    public boolean subscribe(final @NotNull String key,
-                             final @NotNull Player player) {
+    public boolean subscribe(final @NotNull String key, final @NotNull Player player) {
         final DebugChannel channel = Preconditions.checkNonNull(getChannel(key));
         return channel.addListener(player);
     }
 
     /**
-     * Unsubscribes a listening target from the channel
-     * key that is provided.
+     * Unsubscribes a player from the specified debug channel.
      *
-     * @param key The channel identifier.
-     * @param player The target.
-     * @return if the target was unsubscribed.
+     * @param key    the identifier of the debug channel.
+     * @param player the player to unsubscribe.
+     * @return {@code true} if the player was unsubscribed successfully, {@code false} if the channel is not registered.
      * @since 1.0.0
      */
-    public boolean unsubscribe(final @NotNull String key,
-                               final @NotNull Player player) {
+    public boolean unsubscribe(final @NotNull String key, final @NotNull Player player) {
         final DebugChannel channel = Preconditions.checkNonNull(getChannel(key));
         return channel.removeListener(player);
     }
 
     /**
-     * Registers a debugger with an identification.
+     * Registers a debug channel with the specified identifier and friendly name.
      *
-     * @param key The channel identifier.
+     * @param key          the identifier of the debug channel.
+     * @param friendlyName the friendly name of the debug channel.
      * @since 1.0.0
      */
-    public void register(final @NotNull String key,
-                         final @NotNull String friendlyName) {
+    public void register(final @NotNull String key, final @NotNull String friendlyName) {
         channels.put(key, new DebugChannel(friendlyName));
     }
 
     /**
-     * Sends a debug message to the debug channel which
-     * receives every debug message sent.
+     * Sends a debug message to the debug channel that receives every debug message sent.
      *
-     * @param message the message.
+     * @param message the debug message.
      * @since 1.0.0
      */
     private void sendToAllDebug(final @NotNull String message) {
         final DebugChannel channel = getChannel("*");
-        assert channel != null; // Never supposed to happen but still put just in case of a memory value deleting for no reason.
+        assert channel != null; // Should never happen, but added for safety.
 
         final Component debug = debugMessage.replaceText(
                 TextReplacementConfig.builder()
@@ -188,14 +215,15 @@ public final class Debugger {
     }
 
     /**
-     * Initialization of the instance.
+     * Initializes the debugger instance.
      *
-     * @param plugin the plugin using the debugger.
-     * @param component the message format.
+     * @param plugin    the plugin using the debugger.
+     * @param component the message format
+
+    .
      * @since 1.0.0
      */
-    private void init(final @NotNull Plugin plugin,
-                      final @NotNull Component component) {
+    private void init(final @NotNull Plugin plugin, final @NotNull Component component) {
         debugMessage = component.replaceText(
                 TextReplacementConfig.builder()
                         .match("%plugin%")
@@ -208,15 +236,45 @@ public final class Debugger {
     }
 
     /**
-     * An object referring to a debug channel.
+     * An object representing a debug channel.
      *
-     * @since 1.0.0
+     * <p>
+     * This class encapsulates a debug channel with a friendly name and a set of listeners.
+     * The debug channel can be used to track and manage debugging information in a specific context.
+     * </p>
+     *
+     * <p>
+     * This class is designed to be used internally within the application and is not intended for direct public use.
+     * </p>
+     *
+     * <p>
+     * Thread Safety: This class is not thread-safe as the underlying set of listeners is not synchronized.
+     * If multiple threads access the same DebugChannel instance concurrently and modify the listeners set,
+     * external synchronization must be applied to ensure thread safety.
+     * </p>
+     *
+     * <p>
+     * Example usage:
+     * <pre>{@code
+     * DebugChannel channel = new DebugChannel("channel_name");
+     * channel.addListener(player1);
+     * channel.addListener(player2);
+     * Set<Player> listeners = channel.getListeners();
+     * }</pre>
+     * </p>
+     *
      * @author SadGhost
+     * @since 1.0.0
      */
     private static final class DebugChannel {
         @NotNull private final String friendlyName;
         @NotNull private final Set<Player> listeners;
 
+        /**
+         * Constructs a DebugChannel object with the specified friendly name.
+         *
+         * @param friendlyName the friendly name of the debug channel.
+         */
         @Contract(pure = true)
         private DebugChannel(final @NotNull String friendlyName) {
             this.friendlyName = friendlyName;
@@ -224,10 +282,9 @@ public final class Debugger {
         }
 
         /**
-         * Returns a set containing all the listening targets
-         * to the channel.
+         * Returns a set containing all the listeners of the debug channel.
          *
-         * @return the listeners set.
+         * @return the set of listeners.
          * @since 1.0.0
          */
         @Contract(pure = true)
@@ -236,10 +293,10 @@ public final class Debugger {
         }
 
         /**
-         * Adds a target to the listeners of the channel.
+         * Adds a player as a listener to the debug channel.
          *
-         * @param player the target.
-         * @return if the target was added.
+         * @param player the player to add as a listener.
+         * @return {@code true} if the player was added as a listener, {@code false} if the player was already a listener.
          * @since 1.0.0
          */
         public boolean addListener(final @NotNull Player player) {
@@ -247,10 +304,10 @@ public final class Debugger {
         }
 
         /**
-         * Removes a target from the listeners of the channel.
+         * Removes a player from the listeners of the debug channel.
          *
-         * @param player the target.
-         * @return if the target was removed.
+         * @param player the player to remove from the listeners.
+         * @return {@code true} if the player was removed from the listeners, {@code false} if the player was not a listener.
          * @since 1.0.0
          */
         public boolean removeListener(final @NotNull Player player) {
@@ -258,9 +315,9 @@ public final class Debugger {
         }
 
         /**
-         * Returns the friendly name of the channel.
+         * Returns the friendly name of the debug channel.
          *
-         * @return channel friendly name.
+         * @return the friendly name of the channel.
          * @since 1.0.0
          */
         @Contract(pure = true)

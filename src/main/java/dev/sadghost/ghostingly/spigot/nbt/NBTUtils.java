@@ -1,6 +1,5 @@
-package dev.sadghost.ghostingly.paper;
+package dev.sadghost.ghostingly.spigot.nbt;
 
-import dev.sadghost.ghostingly.paper.nbt.NBTTag;
 import dev.sadghost.ghostingly.base.Preconditions;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -10,8 +9,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * An item NBT modification utility which uses the modern
- * PDC methods to modify instead of NMS.
+ * An item NBT modification utility which uses the modern PDC methods to modify instead of NMS.
+ * Provides methods to add and remove NBT tags from ItemStacks.
+ * Note: Requires a Bukkit-based environment.
  *
  * @author SadGhost
  * @since 1.0.0
@@ -19,19 +19,18 @@ import org.jetbrains.annotations.NotNull;
 public final class NBTUtils {
 
     /**
-     * Seals the class.
+     * Seals the class to prevent instantiation.
      */
     @Contract(pure = true)
     private NBTUtils() {}
 
     /**
-     * Gets an item and returns it with the NBT tag
-     * added to its metadata.
+     * Adds an NBT tag to an ItemStack's metadata.
      *
-     * @param itemStack the item to add the tag to.
-     * @param tag the NBT tag.
-     * @param <T> the value type in the NBT tag.
-     * @return the item with the modified nbt.
+     * @param itemStack the ItemStack to add the tag to
+     * @param tag       the NBT tag to add
+     * @param <T>       the value type in the NBT tag
+     * @return the modified ItemStack with the added NBT tag
      * @since 1.0.0
      */
     @Contract("_, _ -> param1")
@@ -45,12 +44,11 @@ public final class NBTUtils {
     }
 
     /**
-     * Gets an item and returns it after removing the
-     * NTB tag from the item's metadata.
+     * Removes an NBT tag from an ItemStack's metadata.
      *
-     * @param itemStack the item to remove the tag from.
-     * @param namespace the NBT key to remove.
-     * @return the item with the modified nbt.
+     * @param itemStack the ItemStack to remove the tag from
+     * @param namespace the namespace of the NBT tag to remove
+     * @return the modified ItemStack with the removed NBT tag
      * @since 1.0.0
      */
     @Contract("_, _ -> param1")
