@@ -1,8 +1,8 @@
-# Celeste
+# Espresso
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Celeste is a powerful library containing a collection of shared classes designed to enhance your project development experience. With Celeste, you can streamline your workflow by leveraging reusable components and utilities.
+Espresso is a powerful library containing a collection of shared classes designed to enhance your project development experience. With Espresso, you can streamline your workflow by leveraging reusable components and utilities.
 
 **Disclaimer:**
 This project includes code snippets and concepts that have been adapted from LielsUtils (https://github.com/LielAmar/LielsUtils) and updated to support the latest version of Minecraft. 
@@ -10,11 +10,11 @@ I greatly acknowledge the original work done by LielAmar.
 
 ## Documentation
 
-The detailed documentation for Celeste can be found in the [Wiki](link-to-wiki). It provides in-depth information about the library's features, usage examples, and best practices.
+The detailed documentation for Espresso can be found in the [Wiki](link-to-wiki). It provides in-depth information about the library's features, usage examples, and best practices.
 
 ## License
 
-Celeste is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
+Espresso is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## Installation
 
@@ -25,7 +25,7 @@ Add the following dependency to your project's `pom.xml` file:
 ```xml
 <dependency>
     <groupId>dev.sadghost</groupId>
-    <artifactId>celeste</artifactId>
+    <artifactId>espresso</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -36,7 +36,7 @@ Add the following dependency to your project's build.gradle file:
 
 ```groovy
 dependencies {
-    implementation 'dev.sadghost:celeste:1.0.0'
+    implementation 'dev.sadghost:espresso:1.0.0'
 }
 ```
 
@@ -46,7 +46,7 @@ Add the following dependency to your project's build.gradle.kts file:
 
 ```kotlin
 dependencies {
-    implementation("dev.sadghost:celeste:1.0.0")
+    implementation("dev.sadghost:espresso:1.0.0")
 }
 ```
 
