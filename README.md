@@ -10,7 +10,7 @@ The detailed documentation for Ghostingly can be found in the [Wiki](link-to-wik
 
 ## License
 
-Ghostingly is licensed under the MIT License. See [LICENSE.md](LICENSE.md) for more information.
+Ghostingly is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## Installation
 
