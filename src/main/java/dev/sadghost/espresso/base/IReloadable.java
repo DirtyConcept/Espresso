@@ -20,7 +20,50 @@ package dev.sadghost.espresso.base;
  *         // Perform plugin-specific reloading logic
  *     }
  * }
+ *
+ * public class Configuration implements IReloadable {
+ *     // Implementation of other methods
+ *
+ *     {@literal @}Override
+ *     public void reload() {
+ *         // Perform configuration-specific reloading logic
+ *     }
+ * }
  * }</pre>
+ *
+ * <p>
+ * In the above example, both the {@code Plugin} and {@code Configuration} classes implement the
+ * {@code IReloadable} interface. This allows instances of these classes to be reloaded using a
+ * common interface method, {@code reload()}, which can be called on any object that implements
+ * the interface.
+ *
+ * <p>
+ * Here's an example of how to use the {@code IReloadable} interface with instances of these classes:
+ *
+ * <pre>{@code
+ * public class PluginCommand implements CommandExecutor {
+ *     @Override
+ *     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+ *         if (args[0].equalsIgnoreCase("reload")) {
+ *             IReloadable plugin = ...; // The plugin instance
+ *             IReloadable configuration = ...; // The configuration instance
+ *             plugin.reload(); // Reload the plugin
+ *             configuration.reload(); // Reload the configuration
+ *             // Other actions when reloading
+ *             return true;
+ *         }
+ *
+ *         // Other command logic
+ *         return false;
+ *     }
+ * }
+ * }</pre>
+ *
+ * <p>
+ * In this example, we create instances of the {@code Plugin} and {@code Configuration} classes and
+ * assign them to variables of type {@code IReloadable}. Since both classes implement the
+ * {@code IReloadable} interface, we can call the {@code reload()} method on these instances to
+ * perform the reloading logic specific to each class.
  *
  * @author SadGhost
  * @since 1.0.0
