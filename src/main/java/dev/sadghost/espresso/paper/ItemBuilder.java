@@ -435,7 +435,8 @@ public final class ItemBuilder {
      * @return the final ItemStack.
      */
     public @NotNull ItemStack build() {
-        itemStack.setItemMeta(meta);
-        return itemStack;
+        final ItemStack item = itemStack.clone();
+        item.setItemMeta(meta);
+        return item;
     }
 }
