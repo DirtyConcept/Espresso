@@ -1,37 +1,25 @@
 package dev.sadghost.espresso.exceptions;
 
 /**
- * The {@code NotImplementedException} is thrown to indicate that a particular feature or functionality
- * is not yet implemented or supported in the current context.
+ * The {@code NotImplementedException} class represents an exception that is thrown to indicate that a particular
+ * feature or functionality is not implemented.
  * <p>
- * This exception extends the {@link RuntimeException} class, which makes it an unchecked exception. It can be
- * thrown at runtime without being explicitly declared in a method's throws clause or caught in a try-catch block.
+ * This class extends the {@link UnsupportedOperationException} class, which is a runtime exception indicating that
+ * the requested operation is not supported.
  * <p>
- * It is typically used as a temporary placeholder to mark areas of code that require further development or to
- * communicate to the user that a specific feature is not yet available.
- *
- * <p><b>Example Usage:</b></p>
- * <pre>{@code
- * public void someMethod() {
- *     throw new NotImplementedException("This feature is not yet implemented.");
+ * This exception can be used to signal that a method or feature is not implemented and should not be called. It can
+ * be thrown when a class or method is under development or when a certain functionality is intentionally omitted.
+ * <p>
+ * Example usage:
+ * <pre>
+ * {@code
+ * throw new NotImplementedException("This feature is not yet implemented");
  * }
- * }</pre>
+ * </pre>
  *
- * <p><b>Example Usage with Cause:</b></p>
- * <pre>{@code
- * public void someMethod() {
- *     try {
- *         // Code that causes the exception
- *     } catch (UnsupportedOperationException e) {
- *         throw new NotImplementedException("This feature is not yet implemented.", e);
- *     }
- * }
- * }</pre>
- *
- * @since 1.0.0
- * @author SadGhost
+ * @see UnsupportedOperationException
  */
-public final class NotImplementedException extends RuntimeException {
+public final class NotImplementedException extends UnsupportedOperationException {
 
     /**
      * Constructs a new {@code NotImplementedException} with no detail message.
@@ -43,7 +31,7 @@ public final class NotImplementedException extends RuntimeException {
     /**
      * Constructs a new {@code NotImplementedException} with the specified detail message.
      *
-     * @param message the detail message.
+     * @param message the detail message describing the reason for the exception.
      */
     public NotImplementedException(String message) {
         super(message);
@@ -52,7 +40,7 @@ public final class NotImplementedException extends RuntimeException {
     /**
      * Constructs a new {@code NotImplementedException} with the specified detail message and cause.
      *
-     * @param message the detail message.
+     * @param message the detail message describing the reason for the exception.
      * @param cause   the cause (which is saved for later retrieval by the {@link #getCause()} method).
      */
     public NotImplementedException(String message, Throwable cause) {
@@ -69,4 +57,3 @@ public final class NotImplementedException extends RuntimeException {
         super(cause);
     }
 }
-
