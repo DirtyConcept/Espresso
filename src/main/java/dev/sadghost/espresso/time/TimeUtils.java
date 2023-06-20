@@ -133,7 +133,6 @@ public class TimeUtils {
         time -= MILLISECONDS_IN_MONTH * months;
         final long weeks = time / MILLISECONDS_IN_WEEK;
         time -= MILLISECONDS_IN_WEEK * weeks;
-
         final long days = time / MILLISECONDS_IN_DAY;
         time -= MILLISECONDS_IN_DAY * days;
         final long hours = time / MILLISECONDS_IN_HOUR;
