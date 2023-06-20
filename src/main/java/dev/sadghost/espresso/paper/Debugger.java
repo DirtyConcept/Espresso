@@ -49,16 +49,13 @@ import java.util.Set;
  */
 @ApiStatus.Experimental
 public final class Debugger {
-    @NotNull
-    private final Map<String, DebugChannel> channels;
-
+    @NotNull private final Map<String, DebugChannel> channels;
     /**
      * The default debug message format.
      *
      * @since 1.0.0
      */
-    @NotNull
-    private static Component debugMessage = Component.text("[DEBUG:%plugin%] [%channel%] %message%");
+    @NotNull private static Component debugMessage = Component.text("[DEBUG:%plugin%] [%channel%] %message%");
 
     /**
      * Constructs a Debugger instance using the specified plugin and the default debug message format.

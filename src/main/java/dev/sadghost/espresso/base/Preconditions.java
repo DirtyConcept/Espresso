@@ -89,7 +89,7 @@ public final class Preconditions {
      * explicitly provided.
      *
      * @param value the provided value to validate.
-     * @param <T>   the type of argument to validate.
+     * @param <T> the type of argument to validate.
      * @return the provided argument if it is not null.
      * @throws NullPointerException if the value is {@code null}.
      * @see #checkNonNull(Object, String)

@@ -41,7 +41,7 @@ public final class NotImplementedException extends UnsupportedOperationException
      * Constructs a new {@code NotImplementedException} with the specified detail message and cause.
      *
      * @param message the detail message describing the reason for the exception.
-     * @param cause   the cause (which is saved for later retrieval by the {@link #getCause()} method).
+     * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method).
      */
     public NotImplementedException(String message, Throwable cause) {
         super(message, cause);

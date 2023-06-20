@@ -3,6 +3,7 @@ package dev.sadghost.espresso.spigot.direction;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -29,8 +30,8 @@ public final class DirectionUtils {
     /**
      * Private constructor to prevent instantiation of this utility class.
      */
-    private DirectionUtils() {
-    }
+    @Contract(pure = true)
+    private DirectionUtils() {}
 
     /**
      * Calculates the yaw angle between two locations.
@@ -54,7 +55,7 @@ public final class DirectionUtils {
      * Returns the direction in which a player is relevant to a location.
      *
      * @param player the player.
-     * @param to     the destination location.
+     * @param to the destination location.
      * @return the direction.
      * @since 1.0.0
      */

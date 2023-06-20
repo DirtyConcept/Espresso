@@ -33,8 +33,8 @@ public final class NBTUtils {
      * Adds an NBT tag to an ItemStack's metadata.
      *
      * @param itemStack the ItemStack to add the tag to
-     * @param tag       the NBT tag to add
-     * @param <T>       the value type in the NBT tag
+     * @param tag the NBT tag to add
+     * @param <T> the value type in the NBT tag
      * @return the modified ItemStack with the added NBT tag
      * @since 1.0.0
      */
@@ -129,8 +129,8 @@ public final class NBTUtils {
      * Checks whether the specified ItemStack contains a specific NBT tag.
      *
      * @param itemStack The ItemStack to check for the presence of the NBT tag.
-     * @param tag       The NBTTag representing the tag to search for.
-     * @param <T>       The type parameter of the NBT tag.
+     * @param tag The NBTTag representing the tag to search for.
+     * @param <T> The type parameter of the NBT tag.
      * @return {@code true} if the ItemStack contains the specified NBT tag, {@code false} otherwise.
      * @throws NullPointerException if either the itemStack or tag is {@code null}.
      * @since 1.0.1
@@ -148,7 +148,7 @@ public final class NBTUtils {
      *
      * @param itemStack The ItemStack to check for the presence of the tag.
      * @param namespace The NamespacedKey representing the namespace of the tag.
-     * @param type      The PersistentDataType representing the type of the tag.
+     * @param type The PersistentDataType representing the type of the tag.
      * @return {@code true} if a tag exists in the ItemStack's PersistentDataContainer with the specified namespace and type, {@code false} otherwise.
      * @throws NullPointerException if any of the parameters (itemStack, namespace, or type) is {@code null}.
      * @since 1.0.1

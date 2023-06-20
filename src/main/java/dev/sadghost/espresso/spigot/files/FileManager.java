@@ -50,7 +50,7 @@ public final class FileManager {
     /**
      * Returns a configuration object representing a single configuration file.
      *
-     * @param path     the path to the configuration file
+     * @param path the path to the configuration file
      * @param fileName the name of the configuration file
      * @return a configuration object representing the specified configuration file,
      *         or {@code null} if the file does not exist or an error occurred
