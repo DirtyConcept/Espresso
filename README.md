@@ -25,14 +25,14 @@ Add the following dependency to your project's `pom.xml` file:
 
 ```xml
 <repository>
-	<id>jitpack.io</id>
-	<url>https://jitpack.io</url>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
 </repository>
 
 <dependency>
-	<groupId>com.github.SadGhostYT</groupId>
-	<artifactId>Espresso</artifactId>
-	<version>-SNAPSHOT</version>
+    <groupId>com.github.SadGhostYT</groupId>
+    <artifactId>Espresso</artifactId>
+    <version>-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -42,7 +42,7 @@ Add the following dependency to your project's build.gradle file:
 
 ```groovy
 repositories {
-	maven { url 'https://jitpack.io' }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -56,7 +56,7 @@ Add the following dependency to your project's build.gradle.kts file:
 
 ```kotlin
 repositories {
-	maven("https://jitpack.io")
+    maven("https://jitpack.io")
 }
 
 dependencies {
