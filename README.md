@@ -1,6 +1,6 @@
 # Espresso
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![](https://jitpack.io/v/SadGhostYT/Espresso.svg)](https://jitpack.io/#SadGhostYT/Espresso)
 
 Espresso is a powerful library containing a collection of shared classes designed to enhance your project development experience. With Espresso, you can streamline your workflow by leveraging reusable components and utilities.
 Energize Your Workflow with Espresso, Unleash Your Potential, and Savor the Flavor of Success!
