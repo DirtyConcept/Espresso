@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
-    compileOnly("org.jetbrains:annotations:24.0.1")
+    compileOnly("org.jetbrains:annotations:24.1.0")
 
     compileOnly("org.mongodb:mongo-java-driver:3.12.14")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
