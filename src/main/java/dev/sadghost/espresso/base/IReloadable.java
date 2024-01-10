@@ -15,7 +15,7 @@ package dev.sadghost.espresso.base;
  * public class Plugin implements IReloadable {
  *     // Implementation of other methods
  *
- *     {@literal @}Override
+ *     @Override
  *     public void reload() {
  *         // Perform plugin-specific reloading logic
  *     }
@@ -24,7 +24,7 @@ package dev.sadghost.espresso.base;
  * public class Configuration implements IReloadable {
  *     // Implementation of other methods
  *
- *     {@literal @}Override
+ *     @Override
  *     public void reload() {
  *         // Perform configuration-specific reloading logic
  *     }
@@ -80,7 +80,7 @@ public interface IReloadable {
      * <h4>Usage Example:</h4>
      * <pre>{@code
      * public class Plugin implements IReloadable {
-     *     {@literal @}Override
+     *     @Override
      *     public void reload() {
      *         // Reload plugin configuration
      *         // Refresh internal caches
