@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * public class MessagesManager implements IMessagesManager {
  *     // Implementation of other methods
  *
- *     {@literal @}Override
+ *     @Override
  *     public void reload() {
  *         // Reload message configuration
  *         // Update message cache

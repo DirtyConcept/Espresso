@@ -77,9 +77,7 @@ public final class Preconditions {
     @Contract(value = "false, _ -> fail", pure = true)
     public static void checkArgument(final boolean value,
                                      final @Nullable String message) {
-        if (!value) {
-            throw new IllegalArgumentException(message);
-        }
+        if (!value) throw new IllegalArgumentException(message);
     }
 
     /**
@@ -91,7 +89,7 @@ public final class Preconditions {
      * explicitly provided.
      *
      * @param value the provided value to validate.
-     * @param <T>   the type of argument to validate.
+     * @param <T> the type of argument to validate.
      * @return the provided argument if it is not null.
      * @throws NullPointerException if the value is {@code null}.
      * @see #checkNonNull(Object, String)
@@ -117,9 +115,9 @@ public final class Preconditions {
      * }
      * }</pre>
      *
-     * @param value   the provided value to validate.
+     * @param value the provided value to validate.
      * @param message the exception message to be included in the thrown exception if the value is null.
-     * @param <T>     the type of argument to validate.
+     * @param <T> the type of argument to validate.
      * @return the provided argument if it is not null.
      * @throws NullPointerException if the value is {@code null}.
      * @since 1.0.0
@@ -127,9 +125,7 @@ public final class Preconditions {
     @Contract(value = "null, _ -> fail; !null, _ -> param1", pure = true)
     public static <T> @NotNull T checkNonNull(final @Nullable T value,
                                               final @Nullable String message) {
-        if (value == null) {
-            throw new NullPointerException(message);
-        }
+        if (value == null) throw new NullPointerException(message);
         return value;
     }
 }

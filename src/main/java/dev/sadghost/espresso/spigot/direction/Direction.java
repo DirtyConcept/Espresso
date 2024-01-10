@@ -17,10 +17,6 @@ import org.jetbrains.annotations.NotNull;
  * </p>
  *
  * <p>
- * Thread Safety: This enum is thread-safe because it is an immutable and stateless representation of directions.
- * </p>
- *
- * <p>
  * Example usage:
  * <pre>{@code
  * Direction direction = Direction.N;

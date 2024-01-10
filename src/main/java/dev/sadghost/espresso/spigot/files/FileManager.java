@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -50,25 +51,26 @@ public final class FileManager {
     /**
      * Returns a configuration object representing a single configuration file.
      *
-     * @param path     the path to the configuration file
+     * @param path the path to the configuration file
      * @param fileName the name of the configuration file
      * @return a configuration object representing the specified configuration file,
      *         or {@code null} if the file does not exist or an error occurred
      * @since 1.0.0
      */
-    public @Nullable IConfig getConfig(final @NotNull String path,
-                                       final @NotNull String fileName) {
+    public @NotNull Optional<IConfig> getConfig(final @NotNull String path,
+                                                final @NotNull String fileName) {
         IConfig config = this.configs.get(fileName);
-        if (config != null) return config;
+        if (config != null) return Optional.of(config);
 
-        final File configFile = getConfigFile(path, fileName);
-        if (configFile == null) return null;
+        final @NotNull Optional<File> configFile = getConfigFile(path, fileName);
+        if (configFile.isEmpty()) return Optional.empty();
         // If the config doesn't already exist, we want to create it, copy the resource and set its header
-        if (!configFile.exists()) createFile(configFile, this.plugin.getResource(fileName));
+        final File file = configFile.get();
+        if (!file.exists()) createFile(file, this.plugin.getResource(fileName));
 
-        config = loadConfig(configFile);
+        config = loadConfig(file);
         this.configs.put(fileName, config);
-        return config;
+        return Optional.of(config);
     }
 
     /**
@@ -79,7 +81,7 @@ public final class FileManager {
      *         or {@code null} if the file does not exist or an error occurred
      * @since 1.0.0
      */
-    public @Nullable IConfig getConfig(final @NotNull String fileName) {
+    public @NotNull Optional<IConfig> getConfig(final @NotNull String fileName) {
         return getConfig(this.plugin.getDataFolder().getPath(), fileName);
     }
 
@@ -92,10 +94,10 @@ public final class FileManager {
      *         or {@code null} if the file name is empty
      * @since 1.0.0
      */
-    private @Nullable File getConfigFile(final @NotNull String path,
-                                         final @NotNull String fileName) {
-        if (fileName.isEmpty()) return null;
-        return new File(path, fileName);
+    private @NotNull Optional<File> getConfigFile(final @NotNull String path,
+                                                  final @NotNull String fileName) {
+        if (fileName.isEmpty()) return Optional.empty();
+        return Optional.of(new File(path, fileName));
     }
 
     /**

@@ -19,8 +19,11 @@ dependencies {
     compileOnly("org.jetbrains:annotations:24.1.0")
 
     compileOnly("org.mongodb:mongo-java-driver:3.12.14")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
+    testCompileOnly("org.jetbrains:annotations:24.0.1")
 }
+
 
 group = "dev.sadghost"
 version = "1.0.0"

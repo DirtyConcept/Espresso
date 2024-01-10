@@ -15,10 +15,8 @@ import java.util.Objects;
  * @param <B> the type of the second object.
  */
 public class Pair<A, B> {
-    @NotNull
-    private A a;
-    @NotNull
-    private B b;
+    @NotNull private A a;
+    @NotNull private B b;
 
     /**
      * Constructs a new Pair object with the given objects.
@@ -27,7 +25,8 @@ public class Pair<A, B> {
      * @param b the second object.
      */
     @Contract(pure = true)
-    public Pair(final @NotNull A a, final @NotNull B b) {
+    public Pair(final @NotNull A a,
+                final @NotNull B b) {
         this.a = a;
         this.b = b;
     }
@@ -69,6 +68,7 @@ public class Pair<A, B> {
     }
 
     @Override
+    @Contract(value = "null -> false", pure = true)
     public boolean equals(final @Nullable Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
