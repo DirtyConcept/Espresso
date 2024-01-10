@@ -1,6 +1,6 @@
 # Espresso
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![](https://jitpack.io/v/SadGhostYT/Espresso.svg)](https://jitpack.io/#SadGhostYT/Espresso)
 
 Espresso is a powerful library containing a collection of shared classes designed to enhance your project development experience. With Espresso, you can streamline your workflow by leveraging reusable components and utilities.
 Energize Your Workflow with Espresso, Unleash Your Potential, and Savor the Flavor of Success!
@@ -24,10 +24,15 @@ Espresso is licensed under the MIT License. See [LICENSE](LICENSE) for more info
 Add the following dependency to your project's `pom.xml` file:
 
 ```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+
 <dependency>
-    <groupId>dev.sadghost</groupId>
-    <artifactId>espresso</artifactId>
-    <version>1.0.0</version>
+    <groupId>com.github.SadGhostYT</groupId>
+    <artifactId>Espresso</artifactId>
+    <version>-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -36,8 +41,12 @@ Add the following dependency to your project's `pom.xml` file:
 Add the following dependency to your project's build.gradle file:
 
 ```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
-    implementation 'dev.sadghost:espresso:1.0.0'
+    implementation 'com.github.SadGhostYT:Espresso:-SNAPSHOT'
 }
 ```
 
@@ -46,8 +55,12 @@ dependencies {
 Add the following dependency to your project's build.gradle.kts file:
 
 ```kotlin
+repositories {
+    maven("https://jitpack.io")
+}
+
 dependencies {
-    implementation("dev.sadghost:espresso:1.0.0")
+    implementation("com.github.SadGhostYT:Espresso:-SNAPSHOT")
 }
 ```
 
