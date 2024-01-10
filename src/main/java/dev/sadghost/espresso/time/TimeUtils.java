@@ -29,13 +29,15 @@ import java.util.concurrent.TimeUnit;
  */
 public class TimeUtils {
     // Constants for milliseconds conversion
-    private static final long MILLISECONDS_IN_SECOND = 1000;
-    private static final long MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * 60;
-    private static final long MILLISECONDS_IN_HOUR = MILLISECONDS_IN_MINUTE * 60;
-    private static final long MILLISECONDS_IN_DAY = MILLISECONDS_IN_HOUR * 24;
-    private static final long MILLISECONDS_IN_WEEK = MILLISECONDS_IN_DAY * 7;
-    private static final long MILLISECONDS_IN_MONTH = MILLISECONDS_IN_DAY * 30;
-    private static final long MILLISECONDS_IN_YEAR = MILLISECONDS_IN_DAY * 365;
+    public static final long MILLISECONDS_IN_SECOND = 1000;
+    public static final long MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * 60;
+    public static final long MILLISECONDS_IN_HOUR = MILLISECONDS_IN_MINUTE * 60;
+    public static final long MILLISECONDS_IN_DAY = MILLISECONDS_IN_HOUR * 24;
+    public static final long MILLISECONDS_IN_WEEK = MILLISECONDS_IN_DAY * 7;
+    public static final long MILLISECONDS_IN_MONTH = MILLISECONDS_IN_DAY * 30;
+    public static final long MILLISECONDS_IN_YEAR = MILLISECONDS_IN_DAY * 365;
+
+    public static final DefaultFormattedTime DEFAULT_FORMATTED_TIME = new DefaultFormattedTime();
 
     /**
      * Private constructor to prevent instantiation of this utility class.
@@ -77,7 +79,6 @@ public class TimeUtils {
                 case 'y' -> milliseconds += parseSpecificTime(timeArray, i, MILLISECONDS_IN_YEAR);
             }
         }
-
         return milliseconds;
     }
 
@@ -111,21 +112,19 @@ public class TimeUtils {
      *
      * @param duration the time duration
      * @param timeUnit the time unit to use for formatting (e.g., seconds, minutes, hours)
-     * @param formatPattern the format pattern for the time representation
-     * @param foreverPlaceholder the placeholder for the representation of a negative duration
+     * @param timeFormatter the formatter used for converting time into string. Will use default if null.
      * @throws NullPointerException if either of the provided {@code timeUnit} or {@code formatParam} are null
      * @return a human-readable string representation of the time duration
      * @since 1.0.0
      */
     public static @NotNull String formatTime(final long duration,
                                              final @NotNull TimeUnit timeUnit,
-                                             final @NotNull String formatPattern,
-                                             final @Nullable String foreverPlaceholder) {
+                                             @Nullable TimeFormatter timeFormatter) {
         Preconditions.checkNonNull(timeUnit, "timeUnit cannot be null");
-        Preconditions.checkNonNull(formatPattern, "formatPattern cannot be null");
 
-        if (duration < 0) return foreverPlaceholder == null ? "Forever" : foreverPlaceholder;
-        long time = timeUnit.convert(duration, TimeUnit.MILLISECONDS);
+        if (timeFormatter == null) timeFormatter = DEFAULT_FORMATTED_TIME;
+        if (duration < 0) return timeFormatter.getForeverString();
+        long time = TimeUnit.MILLISECONDS.convert(duration, timeUnit);
 
         final long years = time / MILLISECONDS_IN_YEAR;
         time -= MILLISECONDS_IN_YEAR * years;
@@ -141,14 +140,22 @@ public class TimeUtils {
         time -= MILLISECONDS_IN_MINUTE * minutes;
         final long seconds = time / MILLISECONDS_IN_SECOND;
 
-        return formatPattern
-                .replace("%years%", String.valueOf(years))
-                .replace("%months%", String.valueOf(months))
-                .replace("%weeks%", String.valueOf(weeks))
-                .replace("%days%", String.valueOf(days))
-                .replace("%hours%", String.valueOf(hours))
-                .replace("%minutes%", String.valueOf(minutes))
-                .replace("%seconds%", String.valueOf(seconds));
+        return timeFormatter.getFormattedTime(years, months, weeks, days, hours, minutes, seconds);
+    }
+
+    /**
+     * Formats the given time duration into a human-readable string representation.
+     * Uses the default time formatter in this method.
+     *
+     * @param duration the time duration
+     * @param timeUnit the time unit to use for formatting (e.g., seconds, minutes, hours)
+     * @throws NullPointerException if either of the provided {@code timeUnit} or {@code formatParam} are null
+     * @return a human-readable string representation of the time duration
+     * @since 1.0.0
+     */
+    public static @NotNull String formatTime(final long duration,
+                                             final @NotNull TimeUnit timeUnit) {
+        return formatTime(duration, timeUnit, DEFAULT_FORMATTED_TIME);
     }
 
     /**
