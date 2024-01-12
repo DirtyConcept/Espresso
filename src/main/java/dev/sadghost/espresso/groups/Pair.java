@@ -15,8 +15,8 @@ import java.util.Objects;
  * @param <B> the type of the second object.
  */
 public class Pair<A, B> {
-    @NotNull private A a;
-    @NotNull private B b;
+    @NotNull protected A a;
+    @NotNull protected B b;
 
     /**
      * Constructs a new Pair object with the given objects.
