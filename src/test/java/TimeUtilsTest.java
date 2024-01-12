@@ -15,6 +15,12 @@ class TimeUtilsTest {
     }
 
     @Test
+    void parseTime() {
+        long timeDuration = TimeUtils.parseTime("1y2M");
+        assertEquals(TimeUtils.MILLISECONDS_IN_YEAR + 2 * TimeUtils.MILLISECONDS_IN_MONTH, timeDuration);
+    }
+
+    @Test
     void formatTime() {
         long duration = 365 * TimeUtils.MILLISECONDS_IN_DAY + 2 * TimeUtils.MILLISECONDS_IN_MONTH;
         String formattedTime = TimeUtils.formatTime(duration, TimeUnit.MILLISECONDS);
