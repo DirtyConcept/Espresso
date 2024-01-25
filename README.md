@@ -30,7 +30,7 @@ Add the following dependency to your project's `pom.xml` file:
 </repository>
 
 <dependency>
-    <groupId>com.github.SadGhostYT</groupId>
+    <groupId>com.github.DirtyConcept</groupId>
     <artifactId>Espresso</artifactId>
     <version>-SNAPSHOT</version>
 </dependency>
@@ -46,7 +46,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.SadGhostYT:Espresso:-SNAPSHOT'
+    implementation 'com.github.DirtyConcept:Espresso:-SNAPSHOT'
 }
 ```
 
@@ -60,7 +60,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.SadGhostYT:Espresso:-SNAPSHOT")
+    implementation("com.github.DirtyConcept:Espresso:-SNAPSHOT")
 }
 ```
 
