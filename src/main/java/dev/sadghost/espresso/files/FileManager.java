@@ -1,4 +1,4 @@
-package dev.sadghost.espresso.spigot.files;
+package dev.sadghost.espresso.files;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.bukkit.plugin.java.JavaPlugin;

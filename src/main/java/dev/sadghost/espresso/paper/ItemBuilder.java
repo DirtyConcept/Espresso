@@ -1,6 +1,5 @@
 package dev.sadghost.espresso.paper;
 
-import com.destroystokyo.paper.Namespaced;
 import com.google.common.collect.Multimap;
 import dev.sadghost.espresso.base.Preconditions;
 import net.kyori.adventure.text.Component;
@@ -18,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -400,32 +398,6 @@ public final class ItemBuilder {
     public @NotNull ItemBuilder withoutAttributeModifier(final @NotNull Attribute attribute,
                                                          final @NotNull AttributeModifier attributeModifier) {
         meta.removeAttributeModifier(attribute, attributeModifier);
-        return this;
-    }
-
-    /**
-     * Sets the destroyable block keys on the item.
-     *
-     * @param keys the destroyable block keys.
-     * @return the ItemBuilder instance.
-     * @since 1.0.0
-     */
-    @Contract("_ -> this")
-    public @NotNull ItemBuilder withDestroyableKeys(final @NotNull Collection<Namespaced> keys) {
-        meta.setDestroyableKeys(keys);
-        return this;
-    }
-
-    /**
-     * Sets the placeable block keys on the item.
-     *
-     * @param keys the placeable block keys.
-     * @return the ItemBuilder instance.
-     * @since 1.0.0
-     */
-    @Contract("_ -> this")
-    public @NotNull ItemBuilder withPlaceableKeys(final @NotNull Collection<Namespaced> keys) {
-        meta.setPlaceableKeys(keys);
         return this;
     }
 

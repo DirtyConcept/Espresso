@@ -1,22 +1,17 @@
-package dev.sadghost.espresso.spigot.files;
+package dev.sadghost.espresso.files;
 
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.ApiStatus.Experimental;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.ConfigurationSection;
+import org.simpleyaml.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -92,42 +87,6 @@ public final class YAMLConfig implements IConfig {
     }
 
     @Override
-    public @Nullable Location getLocation(final @NotNull String path) {
-        return this.configuration.getLocation(path);
-    }
-    @Override
-    public @NotNull Location getLocation(final @NotNull String path, final @NotNull Location defaultValue) {
-        return this.configuration.getLocation(path, defaultValue);
-    }
-
-    @Override
-    public @Nullable OfflinePlayer getOfflinePlayer(final @NotNull String path) {
-        return this.configuration.getOfflinePlayer(path);
-    }
-    @Override
-    public @NotNull OfflinePlayer getOfflinePlayer(final @NotNull String path, final @NotNull OfflinePlayer defaultValue) {
-        return this.configuration.getOfflinePlayer(path, defaultValue);
-    }
-
-    @Override
-    public @Nullable Vector getVector(final @NotNull String path) {
-        return this.configuration.getVector(path);
-    }
-    @Override
-    public @NotNull Vector getVector(final @NotNull String path, final @NotNull Vector defaultValue) {
-        return this.configuration.getVector(path, defaultValue);
-    }
-
-    @Override
-    public @Nullable ItemStack getItemStack(final @NotNull String path) {
-        return this.configuration.getItemStack(path);
-    }
-    @Override
-    public @NotNull ItemStack getItemStack(final @NotNull String path, final @NotNull ItemStack defaultValue) {
-        return this.configuration.getItemStack(path, defaultValue);
-    }
-
-    @Override
     public @Nullable List<?> getList(final @NotNull String path) {
         return this.configuration.getList(path);
     }
@@ -137,21 +96,13 @@ public final class YAMLConfig implements IConfig {
     }
 
     @Override
-    public @Nullable Color getColor(final @NotNull String path) {
-        return this.configuration.getColor(path);
-    }
-    @Override
-    public @NotNull Color getColor(final @NotNull String path, final @NotNull Color defaultValue) {
-        return this.configuration.getColor(path, defaultValue);
+    public @NotNull Map<String, Object> getMapped(@NotNull String path) {
+        return this.configuration.getConfigurationSection(path).getValues(true);
     }
 
     @Override
-    public @Nullable <T extends ConfigurationSerializable> T getSerializable(final @NotNull String path, final @NotNull Class<T> clazz) {
-        return this.configuration.getSerializable(path, clazz);
-    }
-    @Override
-    public @NotNull <T extends ConfigurationSerializable> T getSerializable(final @NotNull String path, final @NotNull Class<T> clazz, final @NotNull T defaultValue) {
-        return this.configuration.getSerializable(path, clazz, defaultValue);
+    public @NotNull Map<String, Object> getMapped(@NotNull String path, @NotNull Map<String, Object> defaultValue) {
+        return Optional.ofNullable(this.configuration.getConfigurationSection(path).getValues(true)).orElse(defaultValue);
     }
 
     @Override
@@ -262,31 +213,6 @@ public final class YAMLConfig implements IConfig {
     @Override
     public boolean isBoolean(final @NotNull String path) {
         return this.configuration.isBoolean(path);
-    }
-
-    @Override
-    public boolean isLocation(final @NotNull String path) {
-        return this.configuration.isLocation(path);
-    }
-
-    @Override
-    public boolean isOfflinePlayer(final @NotNull String path) {
-        return this.configuration.isOfflinePlayer(path);
-    }
-
-    @Override
-    public boolean isVector(final @NotNull String path) {
-        return this.configuration.isVector(path);
-    }
-
-    @Override
-    public boolean isItemStack(final @NotNull String path) {
-        return this.configuration.isItemStack(path);
-    }
-
-    @Override
-    public boolean isColor(final @NotNull String path) {
-        return this.configuration.isColor(path);
     }
 
     @Override
@@ -432,6 +358,10 @@ public final class YAMLConfig implements IConfig {
      * @since 1.0.0
      */
     private @NotNull String getConfigAsString() {
-        return this.configuration.saveToString();
+        try {
+            return this.configuration.saveToString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
