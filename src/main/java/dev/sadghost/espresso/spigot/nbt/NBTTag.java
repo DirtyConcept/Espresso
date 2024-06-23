@@ -10,18 +10,19 @@ import java.util.Optional;
 /**
  * An object representing an NBT tag in the new NBT API known as PersistentDataContainer.
  *
- * @param <T> the value type in the NBT.
+ * @param <T> the value type in the NBT tag.
+ * @param <U> the type it is represented by.
  * @author SadGhost
  * @since 1.0.0
  */
-public final class NBTTag<T> {
+public final class NBTTag<U, T> {
     private final @NotNull NamespacedKey key;
-    private final @NotNull PersistentDataType<T, T> type;
+    private final @NotNull PersistentDataType<U, T> type;
     private final @NotNull T value;
 
     @Contract(pure = true)
     NBTTag(final @NotNull NamespacedKey key,
-           final @NotNull PersistentDataType<T, T> type,
+           final @NotNull PersistentDataType<U, T> type,
            final @NotNull T value) {
         this.key = key;
         this.type = type;
@@ -36,7 +37,7 @@ public final class NBTTag<T> {
      * @since 1.0.0
      */
     @Contract(" -> new")
-    public static <T> @NotNull Builder<T> builder() {
+    public static <U, T> @NotNull Builder<U, T> builder() {
         return new Builder<>();
     }
 
@@ -58,7 +59,7 @@ public final class NBTTag<T> {
      * @since 1.0.0
      */
     @Contract(pure = true)
-    public @NotNull PersistentDataType<T, T> getType() {
+    public @NotNull PersistentDataType<U, T> getType() {
         return type;
     }
 
@@ -80,9 +81,9 @@ public final class NBTTag<T> {
      * @since 1.0.0
      */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    public static final class Builder<T> {
+    public static final class Builder<U, T> {
         private Optional<NamespacedKey> key = Optional.empty();
-        private Optional<PersistentDataType<T, T>> type = Optional.empty();
+        private Optional<PersistentDataType<U, T>> type = Optional.empty();
         private Optional<T> value = Optional.empty();
 
         /**
@@ -93,7 +94,7 @@ public final class NBTTag<T> {
          * @since 1.0.0
          */
         @Contract(value = "_ -> this", mutates = "this")
-        public @NotNull Builder<T> setKey(final @NotNull NamespacedKey key) {
+        public @NotNull Builder<U, T> setKey(final @NotNull NamespacedKey key) {
             this.key = Optional.of(key);
             return this;
         }
@@ -106,7 +107,7 @@ public final class NBTTag<T> {
          * @since 1.0.0
          */
         @Contract(value = "_ -> this", mutates = "this")
-        public @NotNull Builder<T> setType(final @NotNull PersistentDataType<T, T> type) {
+        public @NotNull Builder<U, T> setType(final @NotNull PersistentDataType<U, T> type) {
             this.type = Optional.of(type);
             return this;
         }
@@ -119,7 +120,7 @@ public final class NBTTag<T> {
          * @since 1.0.0
          */
         @Contract(value = "_ -> this", mutates = "this")
-        public @NotNull Builder<T> setValue(final @NotNull T value) {
+        public @NotNull Builder<U, T> setValue(final @NotNull T value) {
             this.value = Optional.of(value);
             return this;
         }
@@ -132,7 +133,7 @@ public final class NBTTag<T> {
          * @since 1.0.0
          */
         @Contract(" -> new")
-        public @NotNull NBTTag<T> build() {
+        public @NotNull NBTTag<U, T> build() {
             return new NBTTag<>(
                     key.orElseThrow(() -> new IllegalStateException("Missing 'key' for the tag.")),
                     type.orElseThrow(() -> new IllegalStateException("Missing 'type' for the tag.")),

@@ -33,20 +33,27 @@ public final class NBTUtils {
      * Adds an NBT tag to an ItemStack's metadata.
      *
      * @param itemStack the ItemStack to add the tag to
-     * @param tag the NBT tag to add
-     * @param <T> the value type in the NBT tag
+     * @param key the namespaced key of the tag.
+     * @param type the type of tag being put into the item.
+     * @param value the value being put into the tag.
+     * @param <T> the value type in the NBT tag.
+     * @param <U> the type it is represented by (example: boolean represented in byte).
      * @return the modified ItemStack with the added NBT tag
      * @since 1.0.0
      */
-    @Contract("_, _ -> param1")
-    public static <T> @NotNull ItemStack addTag(final @NotNull ItemStack itemStack,
-                                                final @NotNull NBTTag<T> tag) {
+    @Contract("_, _, _, _ -> param1")
+    public static <U, T> @NotNull ItemStack addTag(final @NotNull ItemStack itemStack,
+                                                final @NotNull NamespacedKey key,
+                                                final @NotNull PersistentDataType<U, T> type,
+                                                final @NotNull T value) {
         Preconditions.checkNonNull(itemStack, "itemStack");
-        Preconditions.checkNonNull(tag, "tag");
+        Preconditions.checkNonNull(key, "key");
+        Preconditions.checkNonNull(type, "type");
+        Preconditions.checkNonNull(value, "value");
 
         final ItemMeta meta = Preconditions.checkNonNull(itemStack.getItemMeta());
         final PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        pdc.set(tag.getKey(), tag.getType(), tag.getValue());
+        pdc.set(key, type, value);
         itemStack.setItemMeta(meta);
         return itemStack;
     }
@@ -75,16 +82,17 @@ public final class NBTUtils {
     /**
      * Retrieves a tag of a specific type from an ItemStack's PersistentDataContainer.
      *
-     * @param <T> The type of the tag value.
+     * @param <T> the value type in the NBT tag.
+     * @param <U> the type it is represented by.
      * @param itemStack The ItemStack to retrieve the tag from.
      * @param namespace The NamespacedKey representing the namespace of the tag.
      * @param type The PersistentDataType representing the type of the tag.
      * @return The NBTTag instance containing the retrieved tag, or null if the tag is not found or the value is null.
      * @since 1.0.1
      */
-    public static <T> @Nullable NBTTag<T> getTag(final @NotNull ItemStack itemStack,
-                                                 final @NotNull NamespacedKey namespace,
-                                                 final @NotNull PersistentDataType<T, T> type) {
+    public static <U, T> @Nullable NBTTag<U, T> getTag(final @NotNull ItemStack itemStack,
+                                                       final @NotNull NamespacedKey namespace,
+                                                       final @NotNull PersistentDataType<U, T> type) {
         Preconditions.checkNonNull(itemStack, "itemStack");
         Preconditions.checkNonNull(namespace, "namespace");
         Preconditions.checkNonNull(type, "type");
@@ -98,7 +106,7 @@ public final class NBTUtils {
         final T value = pdc.get(namespace, type);
         if (value == null) return null;
 
-        final NBTTag.Builder<T> tagBuilder = NBTTag.builder();
+        final NBTTag.Builder<U, T> tagBuilder = NBTTag.builder();
         return tagBuilder.setKey(namespace)
                 .setType(type)
                 .setValue(value)
@@ -130,13 +138,14 @@ public final class NBTUtils {
      *
      * @param itemStack The ItemStack to check for the presence of the NBT tag.
      * @param tag The NBTTag representing the tag to search for.
-     * @param <T> The type parameter of the NBT tag.
+     * @param <T> the value type in the NBT tag.
+     * @param <U> the type it is represented by.
      * @return {@code true} if the ItemStack contains the specified NBT tag, {@code false} otherwise.
      * @throws NullPointerException if either the itemStack or tag is {@code null}.
      * @since 1.0.1
      */
-    public static <T> boolean containsTag(final @NotNull ItemStack itemStack,
-                                          final @NotNull NBTTag<T> tag) {
+    public static <U, T> boolean containsTag(final @NotNull ItemStack itemStack,
+                                             final @NotNull NBTTag<U, T> tag) {
         Preconditions.checkNonNull(itemStack, "itemStack");
         Preconditions.checkNonNull(tag, "tag");
 
@@ -169,24 +178,25 @@ public final class NBTUtils {
     /**
      * Retrieves all tags of a specific type from an ItemStack's PersistentDataContainer.
      *
-     * @param <T> The type of the tag value.
+     * @param <T> the value type in the NBT tag.
+     * @param <U> the type it is represented by.
      * @param itemStack The ItemStack to retrieve tags from.
      * @param type The PersistentDataType representing the type of the tags to retrieve.
      * @return A list of NBTTag instances containing the retrieved tags.
      * @since 1.0.1
      */
-    public static <T> @NotNull List<NBTTag<T>> getAllTags(final @NotNull ItemStack itemStack,
-                                                          final @NotNull PersistentDataType<T, T> type) {
+    public static <U, T> @NotNull List<NBTTag<U, T>> getAllTags(final @NotNull ItemStack itemStack,
+                                                                final @NotNull PersistentDataType<U, T> type) {
         final ItemMeta meta = itemStack.getItemMeta();
         if (meta == null) return new ArrayList<>();
 
         final PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        final List<NBTTag<T>> tags = new ArrayList<>();
+        final List<NBTTag<U, T>> tags = new ArrayList<>();
         for (final NamespacedKey key : pdc.getKeys()) {
             if (pdc.has(key, type)) {
-                final NBTTag.Builder<T> tagBuilder = NBTTag.builder();
+                final NBTTag.Builder<U, T> tagBuilder = NBTTag.builder();
                 final T value = Preconditions.checkNonNull(pdc.get(key, type), "value");
-                final NBTTag<T> tag = tagBuilder.setKey(key)
+                final NBTTag<U, T> tag = tagBuilder.setKey(key)
                         .setType(type)
                         .setValue(value)
                         .build();
